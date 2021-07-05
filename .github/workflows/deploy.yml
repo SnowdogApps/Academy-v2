@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+    push:
+        branches:
+            - test
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Deploy to stage
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.HOST }}
+                  username: ${{ secrets.USERNAME }}
+                  port: ${{ secrets.PORT }}
+                  key: ${{ secrets.SSHKEY }}
+                  script: /home/${{ secrets.USERNAME}}/deploy.sh test

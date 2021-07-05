@@ -1,0 +1,80 @@
+version: '3'
+
+services:
+    nginx:
+        image: nginx:1.17.0-alpine
+        ports:
+            - '80:80'
+        volumes:
+            - wihajster/:/var/www/wihajster/:nocopy,delegated
+            - ./nginx/servers/wihajster.conf:/etc/nginx/conf.d/a-wihajster.conf
+        networks:
+            - wihajster_network
+
+    php:
+        image: tm18/academy-v2:1.0.0 # personal repo, we'll change to snowdog later
+        volumes:
+            - wihajster/:/var/www/wihajster/:nocopy,delegated
+            - ./php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+            - ./php/conf.d/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
+        networks:
+            - wihajster_network
+
+    mysql:
+        image: mysql:5.7.26
+        ports:
+            - '3306:3306'
+        environment:
+            MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+            MYSQL_DATABASE: ${MYSQL_DATABASE}
+            MYSQL_HOST: ${MYSQL_HOST}
+            MYSQL_USER: ${MYSQL_USER}
+            MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+        volumes:
+            - wihajster_mysql/:/var/lib/mysql
+        networks:
+            - wihajster_network
+
+    elasticsearch:
+        image: elasticsearch:6.8.2
+        environment:
+            - discovery.type=single-node
+            - bootstrap.memory_lock=true
+            - cluster.routing.allocation.disk.threshold_enabled=false
+            - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+        volumes:
+            - wihajster_elasticsearch/:/usr/share/elasticsearch/data
+        ports:
+            - '9200:9200'
+        networks:
+            - wihajster_network
+
+    redis:
+        image: redis:5.0.5-alpine
+        ports:
+            - '6379:6379'
+        networks:
+            - wihajster_network
+
+    mailhog:
+        image: mailhog/mailhog
+        ports:
+            - '1025:1025'
+            - '8025:8025'
+        networks:
+            - wihajster_network
+
+volumes:
+    wihajster:
+        external:
+            name: wihajster
+    wihajster_mysql:
+        external:
+            name: wihajster_mysql
+    wihajster_elasticsearch:
+        external:
+            name: wihajster_elasticsearch
+
+networks:
+    wihajster_network:
+        driver: bridge

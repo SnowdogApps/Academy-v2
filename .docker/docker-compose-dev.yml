@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+    php-xdebug:
+        image: tm18/academy-v2-xdebug:1.0.0
+        environment:
+          XDEBUG_REMOTE_HOST: ${XDEBUG_REMOTE_HOST}
+        depends_on:
+            - php
+        volumes:
+            - wihajster/:/var/www/wihajster/:nocopy,delegated
+            - ./php/conf.d/custom.ini:/usr/local/etc/php/conf.d/custom.ini
+            - ./php/conf.d/defaults.ini:/usr/local/etc/php/conf.d/defaults.ini
+            - ./php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+        networks:
+            - wihajster_network
