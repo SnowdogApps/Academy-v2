@@ -23,7 +23,7 @@ Specifically for the academy, we prepared a Docker environment. Instructions on 
 #### Resources
 
 * https://docs.magento.com/m2/ce/user_guide/
-* https://devdocs.magento.com/guides/v2.3/
+* https://devdocs.magento.com/guides/v2.4/
 * https://magento.stackexchange.com/
 
 #### Story
