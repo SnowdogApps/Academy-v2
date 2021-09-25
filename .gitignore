@@ -70,3 +70,4 @@ atlassian*
 /.docker/elasticsearch
 /.docker/.env
 /.docker/php/conf.d/custom.ini
+composer.phar
