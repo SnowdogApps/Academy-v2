@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_fi
+le.xsd">
+<system>
+<tab id="snowdog" translate="label" sortOrder="10">
+<label>Snowdog</label>
+</tab>
+<section id="academy" translate="label" sortOrder="10"
+showInDefault="1" showInWebsite="1" showInStore="1">
+<label>SMS Subscription</label>
+<tab>snowdog</tab>
+<resource>Snowdog_Academy::module_config</resource>
+<group id="general" translate="label" type="text" sortOrder="10"
+showInDefault="1" showInWebsite="0" showInStore="0">
+<label>General</label>
+
+<field id="enable" translate="label" type="select"
+sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+<label>Enable</label>
+<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+</field>
+
+<!--
+<field id="display_text" translate="label" type="text"
+sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+<label>Text</label>
+<comment>Prompt</comment>
+</field>
+
+<field id="custom_textarea" translate="label" type="textarea"
+sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+<label>Textarea</label>
+</field>
+
+<field id="picture" translate="label" type="image"
+sortOrder="1" showInDefault="1" showInWebsite="0" showInStore="0">
+<label>Image</label>
+<backend_model>Magento\Config\Model\Config\Backend\Image</backend_model>
+<upload_dir config="system/filesystem/media"
+scope_info="1">picture</upload_dir>
+<base_url type="media" scope_info="1">picture</base_url>
+<comment><![CDATA[Allowed files: jpg, png,
+gif]]></comment>
+</field>
+
+-->
+
+</group>
+</section>
+</system>
+</config>
