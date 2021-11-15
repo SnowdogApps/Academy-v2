@@ -9,7 +9,7 @@ class Config
 {
     private ScopeConfigInterface $scopeConfig;
 
-    public const FIELD_NAME_ENABLE = 'sms_subscription/general/enable';
+    public const FIELD_NAME_ENABLE = 'product_feed/general/enable';
 
     public function __construct(ScopeConfigInterface $scopeConfig)
     {
