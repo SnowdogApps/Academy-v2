@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Academy_ProductFeed::product_feed"
+             title="Product Feed"
+             module="Academy_ProductFeed"
+             sortOrder="1000"
+             parent="Magento_Catalog::catalog"
+             resource="Academy_ProductFeed::product_feed"/>
+        <add id="Academy_ProductFeed::manage_feeds"
+             title="Manage Feeds" translate="title" module="Academy_ProductFeed"
+             parent="Academy_ProductFeed::product_feed" sortOrder="10"
+             dependsOnModule="Academy_ProductFeed"
+             action="product_feed/manage/index"
+             resource="Academy_ProductFeed::manage_feeds"/>
+    </menu>
+</config>
