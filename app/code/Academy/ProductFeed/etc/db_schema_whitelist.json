@@ -1,0 +1,33 @@
+{
+    "product_feed": {
+        "column": {
+            "product_feed_id": true,
+            "name": true,
+            "filename": true,
+            "file_type": true,
+            "status": true,
+            "FTP": true,
+            "template_content": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true
+        }
+    },
+    "product_feed_history": {
+        "column": {
+            "id": true,
+            "product_feed_id": true,
+            "status": true,
+            "generation_type": true,
+            "error_message": true,
+            "products_amount": true,
+            "created_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "PRD_FEED_HISTORY_PRD_FEED_ID_PRD_FEED_PRD_FEED_ID": true
+        }
+    }
+}
