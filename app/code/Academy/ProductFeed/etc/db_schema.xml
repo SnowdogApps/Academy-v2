@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="product_feed">
+        <column xsi:type="int" name="product_feed_id" padding="11"
+                unsigned="true" nullable="false" identity="true" comment="Product Feed ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Product Feed Name"/>
+        <column xsi:type="varchar" name="filename" nullable="false" length="255" comment="Product Feed File Name"/>
+        <column xsi:type="varchar" name="file_type" nullable="false" length="10" comment="File format"/>
+        <column xsi:type="boolean" name="status" nullable="false" comment="Status"/>
+        <column xsi:type="varchar" name="FTP" nullable="true" length="255" comment="FTP address"/>
+        <column xsi:type="text" name="template_content" nullable="false" comment="Template content"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" comment="Created at" />
+        <column xsi:type="datetime" name="updated_at" nullable="false" comment="Updated at" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="product_feed_id"/>
+        </constraint>
+    </table>
+    <table name="product_feed_history">
+        <column xsi:type="int" name="id" padding="11"
+                unsigned="true" nullable="false" identity="true" comment="Product feed history ID"/>
+        <column xsi:type="int" name="product_feed_id" padding="10" unsigned="true" nullable="false" comment="Product feed ID"/>
+        <column xsi:type="varchar" name="status" nullable="false" length="255" comment="Status"/>
+        <column xsi:type="varchar" name="generation_type" nullable="false" length="255" comment="Generation type: cron or manual"/>
+        <column xsi:type="varchar" name="error_message" nullable="true" comment="Error message"/>
+        <column xsi:type="int" name="products_amount" nullable="false" comment="Products amount"/>
+        <column xsi:type="datetime" name="created_at" nullable="false" comment="Generation time" />
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="PRODUCT_FEED_HISTORY_PRODUCT_FEED_ID_PRODUCT_FEED_PRODUCT_FEED_ID" table="product_feed_history"
+                    column="product_feed_id" referenceTable="product_feed" referenceColumn="product_feed_id" onDelete="CASCADE"/>
+    </table>
+</schema>
