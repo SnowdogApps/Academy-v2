@@ -2,33 +2,34 @@
 
 namespace Academy\ProductFeed\Controller\Adminhtml\Manage;
 
-use Academy\ProductFeed\Logger\Logger;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
-use Magento\Framework\App\ActionInterface;
 use Magento\Framework\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 
-class Add implements ActionInterface
+class Add extends Action implements HttpGetActionInterface
 {
-    protected PageFactory $pageFactory;
-    private Logger $logger;
+    const MENU_ID = 'Academy_ProductFeed::manage_feeds';
+
+    protected $pageFactory;
 
     public function __construct(
-        PageFactory $rawFactory,
-        Logger      $logger
-    )
-    {
+        Context $context,
+        PageFactory $rawFactory
+    ) {
         $this->pageFactory = $rawFactory;
-        $this->logger = $logger;
+
+        parent::__construct($context);
     }
+
 
     public function execute()
     {
-        $this->pageFactory->create();
-        echo 'TEST';
-        exit;
-        $this->logger->info('START send SMS Subscription');
-        return $this->pageFactory->create();
+        $resultPage = $this->pageFactory->create();
+        //$resultPage->setActiveMenu(static::MENU_ID);
+        //$resultPage->getConfig()->getTitle()->prepend(__('Manage Feeds'));
+
+        return $resultPage;
     }
 }
