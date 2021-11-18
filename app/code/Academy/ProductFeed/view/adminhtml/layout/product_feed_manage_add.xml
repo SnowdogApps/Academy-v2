@@ -2,7 +2,7 @@
     <update handle="styles"/>
     <body>
         <referenceContainer name="content">
-            <block class="Academy\ProductFeed\Block\Manage" name="product_feed_manage_add" template="Academy_ProductFeed::product_feed_manage_add.phtml" cacheable="false" />
+            <uiComponent name="product_feed_manage_form"/>
         </referenceContainer>
     </body>
 </page>
