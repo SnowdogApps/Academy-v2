@@ -14,7 +14,7 @@ class ProductFeed extends AbstractModel
 
     public function getProductFeedId(): int
     {
-        return (int) $this->getData('product_feed_id');
+        return (int)$this->getData('product_feed_id');
     }
 }
 
