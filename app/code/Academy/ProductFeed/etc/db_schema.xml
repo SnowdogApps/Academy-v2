@@ -8,10 +8,11 @@
         <column xsi:type="varchar" name="filename" nullable="false" length="255" comment="Product Feed File Name"/>
         <column xsi:type="varchar" name="file_type" nullable="false" length="10" comment="File format"/>
         <column xsi:type="boolean" name="status" nullable="false" comment="Status"/>
-        <column xsi:type="varchar" name="FTP" nullable="true" length="255" comment="FTP address"/>
+        <column xsi:type="varchar" name="ftp" nullable="true" length="255" comment="FTP address"/>
         <column xsi:type="text" name="template_content" nullable="false" comment="Template content"/>
         <column xsi:type="datetime" name="created_at" nullable="false" comment="Created at" />
         <column xsi:type="datetime" name="updated_at" nullable="false" comment="Updated at" />
+        <column xsi:type="text" name="categories" nullable="false" comment="Categories"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="product_feed_id"/>
         </constraint>
