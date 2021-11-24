@@ -20,4 +20,10 @@
             </argument>
         </arguments>
     </type>
+    <virtualType name="AcademyProductFeedCollection" type="Academy\ProductFeed\Ui\DataProvider\ProductFeed\Listing\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">product_feed</argument>
+            <argument name="resourceModel" xsi:type="string">Academy\ProductFeed\Model\ResourceModel\ProductFeed</argument>
+        </arguments>
+    </virtualType>
 </config>

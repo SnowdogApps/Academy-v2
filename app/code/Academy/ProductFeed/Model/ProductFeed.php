@@ -18,4 +18,3 @@ class ProductFeed extends AbstractModel
     }
 }
 
-
