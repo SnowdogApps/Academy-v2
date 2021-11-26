@@ -2,33 +2,20 @@
 
 namespace Academy\ProductFeed\Controller\Adminhtml\Manage;
 
-use Magento\Backend\App\Action;
-use Magento\Backend\App\Action\Context;
+use Magento\Framework\App\ActionInterface;
 use Magento\Framework\View\Result\PageFactory;
-use Magento\Framework\App\Action\HttpGetActionInterface;
 
-class Add extends Action implements HttpGetActionInterface
+class Add implements ActionInterface
 {
-    protected $pageFactory;
+    private $pageFactory;
 
-    public function __construct(
-        Context     $context,
-        PageFactory $rawFactory
-    )
+    public function __construct(PageFactory $pageFactory)
     {
-        $this->pageFactory = $rawFactory;
-        parent::__construct($context);
+        $this->pageFactory = $pageFactory;
     }
-
 
     public function execute()
     {
-        $this->_forward('edit');
+        return $this->pageFactory->create();
     }
-
-    public function _isAllowed()
-    {
-        return $this->_authorization->isAllowed('Academy_ProductFeed::add');
-    }
-
 }

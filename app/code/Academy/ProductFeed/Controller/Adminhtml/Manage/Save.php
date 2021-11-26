@@ -2,59 +2,76 @@
 
 namespace Academy\ProductFeed\Controller\Adminhtml\Manage;
 
-use Magento\Backend\App\Action;
-use Magento\Backend\App\Action\Context;
+use Exception;
+use Magento\Backend\Model\View\Result\RedirectFactory;
+use Magento\Framework\App\ActionInterface;
+use Magento\Framework\App\Request\Http;
+use Magento\Framework\Message\Manager;
+use Academy\ProductFeed\Model\ProductFeedFactory;
+use Academy\ProductFeed\Model\ResourceModel\ProductFeed;
 
-class Save extends Action
+class Save implements ActionInterface
 {
-    public $feedFactory;
+    private $request;
+    private $feedResource;
+    private $feedFactory;
+    private $redirectFactory;
+    private $messageManager;
 
     public function __construct(
-        Context                                       $context,
-        \Academy\ProductFeed\Model\ProductFeedFactory $feedFactory
+        Http               $request,
+        ProductFeed        $feedResource,
+        ProductFeedFactory $feedFactory,
+        RedirectFactory    $redirectFactory,
+        Manager            $messageManager
     )
     {
+        $this->request = $request;
+        $this->feedResource = $feedResource;
         $this->feedFactory = $feedFactory;
-        parent::__construct($context);
+        $this->redirectFactory = $redirectFactory;
+        $this->messageManager = $messageManager;
     }
 
     public function execute()
     {
-        $resultRedirect = $this->resultRedirectFactory->create();
-        $data = $this->getRequest()->getParams();
+        $data = $this->request->getPostValue();
+        $productFeed = $this->feedFactory->create();
 
-        if (isset($data['product_feed_id']) && $data['product_feed_id']) {
-            $model = $this->feedFactory->create()->load($data['product_feed_id']);
-            $model->setFilename($data['filename'])
-                ->setName($data['name'])
-                ->setStatus($data['status'])
-                ->setFileType($data['file_type'])
-                ->setFtp($data['ftp'])
-                ->setTemplateContent($data['template_content'])
-                ->setCategories(implode(",", $data['categories']))
-                ->setUpdatedAt(date("Y-m-d H:i:s"))
-                ->save();
-            $this->messageManager->addSuccess(__('You have updated the product feed successfully.'));
-        } else {
-            $model = $this->feedFactory->create();
-            $model->setFilename($data['filename'])
-                ->setName($data['name'])
-                ->setStatus($data['status'])
-                ->setFileType($data['file_type'])
-                ->setFtp($data['ftp'])
-                ->setTemplateContent($data['template_content'])
-                ->setCategories(implode(",", $data['categories']))
-                ->setUpdatedAt(date("Y-m-d H:i:s"))
-                ->setCreatedAt(date("Y-m-d H:i:s"))
-                ->save();
-            $this->messageManager->addSuccess(__('You have successfully created the product feed.'));
-        }
-        return $resultRedirect->setPath('*/*/index');
+        $this->prepareDataToSave($productFeed, $data);
 
+        $this->saveProductFeed($productFeed);
+
+        return $this->redirectFactory->create()->setPath('*/*/');
     }
 
-    public function _isAllowed()
+    /**
+     * @param \Academy\ProductFeed\Model\ProductFeed $productFeed
+     * @param $data
+     */
+    private function prepareDataToSave(\Academy\ProductFeed\Model\ProductFeed $productFeed, $data): void
     {
-        return $this->_authorization->isAllowed('Academy_ProductFeed::save');
+        $productFeed->setFilename($data['general']['filename'])
+            ->setName($data['general']['name'])
+            ->setStatus($data['general']['status'])
+            ->setFileType($data['template']['file_type'])
+            ->setFtp($data['ftp']['ftp'])
+            ->setTemplateContent($data['template']['template_content'])
+            ->setCategories(implode(",", $data['filter']['categories']))
+            ->setUpdatedAt(date("Y-m-d H:i:s"))
+            ->setCreatedAt(date("Y-m-d H:i:s"));
+    }
+
+    /**
+     * @param \Academy\ProductFeed\Model\ProductFeed $productFeed
+     */
+    private function saveProductFeed(\Academy\ProductFeed\Model\ProductFeed $productFeed): void
+    {
+        try {
+            $this->feedResource->save($productFeed);
+            $this->messageManager->addSuccessMessage('Product Feed saved!');
+        } catch (Exception $e) {
+            $this->messageManager->addErrorMessage('Error while saving new Product Feed!');
+        }
     }
 }
