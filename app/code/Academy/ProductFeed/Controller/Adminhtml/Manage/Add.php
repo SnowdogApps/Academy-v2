@@ -2,20 +2,34 @@
 
 namespace Academy\ProductFeed\Controller\Adminhtml\Manage;
 
-use Magento\Framework\App\ActionInterface;
+use Magento\Backend\App\Action;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\Action\HttpGetActionInterface;
 
-class Add implements ActionInterface
+class Add extends Action implements HttpGetActionInterface
 {
-    private $pageFactory;
+    const MENU_ID = 'Academy_ProductFeed::manage_feeds';
 
-    public function __construct(PageFactory $pageFactory)
+    protected $pageFactory;
+
+    public function __construct(
+        Context     $context,
+        PageFactory $rawFactory
+    )
     {
-        $this->pageFactory = $pageFactory;
+        $this->pageFactory = $rawFactory;
+
+        parent::__construct($context);
     }
 
-    public function execute()
+    public function execute(): Page
     {
-        return $this->pageFactory->create();
+        $resultPage = $this->pageFactory->create();
+        $resultPage->setActiveMenu(static::MENU_ID);
+        $resultPage->getConfig()->getTitle()->prepend(__('Add new Product Feed'));
+
+        return $resultPage;
     }
 }
