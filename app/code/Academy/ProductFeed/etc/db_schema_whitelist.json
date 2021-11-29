@@ -9,7 +9,9 @@
             "FTP": true,
             "template_content": true,
             "created_at": true,
-            "updated_at": true
+            "updated_at": true,
+            "categories": true,
+            "ftp": true
         },
         "constraint": {
             "PRIMARY": true
